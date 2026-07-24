@@ -7,7 +7,5 @@ __pycache__/
 *.pyc
 *.pyo
 graph_inspection/graph_draw/resources/graph_zoom_*
-shortest_paths_algorithms/analysis/resources/extracted_nodes/*
-shortest_paths_algorithms/a_star/resources/selected_examples/*
 .vscode
 .pytest_cache/
