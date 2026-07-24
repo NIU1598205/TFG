@@ -1,0 +1,61 @@
+minimum_pre_commit_version: 4.5.0
+repos:
+  # Local custom hooks
+  - repo: local
+    hooks:
+      - id: check-function-docstrings
+        name: Check function docstrings
+        entry: python hooks/check_docstrings.py
+        language: python
+        files: \.(py|ipynb)$
+        types: [file]
+        description: "Ensure all functions have docstrings with args:, returns:, and description"
+      - id: check-local-variable-placement
+        name: Check local variable placement
+        entry: python hooks/check_local_variable_placement.py
+        language: python
+        files: \.(py|ipynb)$
+        types: [file]
+        description: "Ensure function-local assignments are declared at the top of the function"
+      - id: check-requirements-updated
+        name: Ensure .venv satisfies requirements.txt
+        entry: python3 hooks/check_requirements_up_to_date.py
+        language: system
+        pass_filenames: false
+        description: "Fail commit if .venv is missing a requirements.txt package or its pin"
+
+  # General file cleanup
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-docstring-first
+      - id: check-toml
+      - id: trailing-whitespace
+        exclude: \.rtf$
+      - id: end-of-file-fixer
+        exclude: (\.rtf$|\.work/)
+      - id: mixed-line-ending
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: debug-statements
+
+  # Strip notebook outputs before committing
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.9.1
+    hooks:
+      - id: nbstripout
+
+  # Python code formatting with Black
+  - repo: https://github.com/psf/black
+    rev: 24.1.1
+    hooks:
+      - id: black
+        language_version: python3.12
+
+  # Python linting with Flake8
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        args: ['--max-line-length=100', '--ignore=E203,W503']
